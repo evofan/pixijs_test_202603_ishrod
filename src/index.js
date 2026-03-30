@@ -7,21 +7,22 @@ import { VERSION } from "pixi.js";
 import { Text } from "pixi.js";
 
 import { addBackground } from "./addBackground";
+import { addFishes, animateFishes } from "./addFish";
 
 // Pixiアプリケーションを作成する
 const app = new Application();
 
-// 非同期即時実行巻数
-(async () => {
-  await setup();
-  await preload();
-})();
+// 魚のスプライト（アニメーション）用の配列を定義
+const fishes = [];
 
 // Pixiをセットアップする
 async function setup() {
   console.log("setup()");
 
+  // 初期化する（初期設定を定義）
   await app.init({ background: "#1099bb", resizeTo: window });
+
+  // canvasに追加
   document.body.appendChild(app.canvas);
 }
 
@@ -69,11 +70,17 @@ async function preload() {
 // PixiJSのバージョンを表示
 console.log(VERSION); // 8.17.1
 
-// Asynchronous IIFE
+// Asynchronous IIFE（非同期の即時実行関数）
 (async () => {
   await setup();
   await preload();
 
-  // アプリの参照を渡す
+  // 背景画像表示する (アプリの参照を渡す)
   addBackground(app);
+
+  // 魚を追加する（魚の配列を渡す＝アニメーションでも使うので呼び出し外で定義）
+  addFishes(app, fishes);
+
+  // 魚のアニメーションのコールバックを呼び出す
+  app.ticker.add((time) => animateFishes(app, fishes, time));
 })();
