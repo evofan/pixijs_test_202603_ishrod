@@ -8,6 +8,7 @@ import { Text } from "pixi.js";
 
 import { addBackground } from "./addBackground";
 import { addFishes, animateFishes } from "./addFish";
+import { addWaterOverlay, animateWaterOverlay } from "./addWaterOverlay";
 
 // Pixiアプリケーションを作成する
 const app = new Application();
@@ -81,6 +82,12 @@ console.log(VERSION); // 8.17.1
   // 魚を追加する（魚の配列を渡す＝アニメーションでも使うので呼び出し外で定義）
   addFishes(app, fishes);
 
-  // 魚のアニメーションのコールバックを呼び出す
-  app.ticker.add((time) => animateFishes(app, fishes, time));
+  // 水のオーバーレイを追加する（波紋のようなテクスチャーが追加される）
+  addWaterOverlay(app);
+
+  // アニメーションのコールバックを呼び出す
+  app.ticker.add((time) => {
+    animateFishes(app, fishes, time);
+    animateWaterOverlay(app, time);
+  });
 })();
