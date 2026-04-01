@@ -9,6 +9,7 @@ import { Text } from "pixi.js";
 import { addBackground } from "./addBackground";
 import { addFishes, animateFishes } from "./addFish";
 import { addWaterOverlay, animateWaterOverlay } from "./addWaterOverlay";
+import { addDisplacementEffect } from "./addDisplacementEffect";
 
 // Pixiアプリケーションを作成する
 const app = new Application();
@@ -84,6 +85,9 @@ console.log(VERSION); // 8.17.1
 
   // 水のオーバーレイを追加する（波紋のようなテクスチャーが追加される）
   addWaterOverlay(app);
+
+  // 歪み効果のフィルターを追加する
+  addDisplacementEffect(app);
 
   // アニメーションのコールバックを呼び出す
   app.ticker.add((time) => {
