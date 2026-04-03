@@ -7,6 +7,7 @@ import {
 } from "pixi.js";
 
 export function addDisplacementEffect(app) {
+  console.log("addDisplacementEffect()");
   // フィルター効果をかけるスプライトを指定
   const sprite = Sprite.from("displacement");
   // sprite.texture.baseTexture.wrapMode = 'repeat';
@@ -20,12 +21,28 @@ export function addDisplacementEffect(app) {
 
   // sprite.texture.TextureSource = "repeat";
 
+  sprite.texture.source.wrapMode = "repeat";
+  // sprite.source.wrapMode = "repeat";
+
+  const textureSource = sprite.texture.source;
+
+  textureSource.wrapMode = "repeat";
+
+
+  // sprite.filters= new DisplacementFilter({
   const filter = new DisplacementFilter({
     sprite: sprite,
     //blendMode: "luminosity",
     //blendRequired: true,
-    scale: 20,
+    scale: 50,
   });
+
+  // New default behavior (optimized)
+  const blur = new BlurFilter({ strength: 20, quality: 4 });
+
+  // sprite.filters = [new DisplacementFilter({ strength: 8 })];
+
+  //filter.texture.source.wrapMode = "repeat";
 
   const filter2 = new BlurFilter({
     strength: 8, // Overall blur strength
@@ -41,5 +58,6 @@ export function addDisplacementEffect(app) {
 
   //filter.scale.x = 50;
   //filter.scale.y = 50;
-  app.stage.filter = [filter];
+  app.stage.addChild(sprite);
+  app.stage.filter = [filter2];
 }
